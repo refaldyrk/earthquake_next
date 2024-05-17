@@ -152,9 +152,20 @@ export default async function Hero() {
                     </Card>
                 </div>
                 <div className="flex-1 md:p-20 w-full items-center justify-center">
-                    <Timeline>
-                        {element}
-                    </Timeline>
+                    <Card >
+                        <div className="">
+                            <div>
+                                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                    Gempa Terkini
+                                </h5>
+                            </div>
+                            <div>
+                                <Timeline>
+                                    {element}
+                                </Timeline>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
             </Card>
         </>
