@@ -1,6 +1,7 @@
 'use server'
 import NavigationBar from "@/app/_component/navbar";
 import Hero from "@/app/_component/hero";
+import {Card} from "flowbite-react";
 
 
 
