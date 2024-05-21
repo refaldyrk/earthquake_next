@@ -1,4 +1,4 @@
-'use server'
+'use client'
 
 import {
     Badge,
@@ -10,6 +10,7 @@ import {
     TimelinePoint,
     TimelineTime, TimelineTitle
 } from "flowbite-react";
+import {useEffect, useState} from "react";
 
 interface Gempa {
     Tanggal: string;
@@ -27,20 +28,33 @@ interface Gempa {
 }
 
 
-async function getData(): Promise<Gempa> {
-    let resp = await fetch("https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json");
-    let data = await resp.json();
-    return data.Infogempa.gempa as Gempa;
-}
+export default function Hero() {
+    const [all, setAll] = useState<Gempa[]>([]);
+    const [d, setD] = useState<Gempa>({} as Gempa);
 
-async function getallData(): Promise<Gempa[]> {
-    let resp = await fetch("https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.json");
-    let data = await resp.json();
-    return data.Infogempa.gempa as Gempa[];
-}
-export default async function Hero() {
-    const d = await getData();
-    const all = await getallData();
+    async function getData(): Promise<void> {
+        let resp = await fetch("https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json");
+        let data = await resp.json();
+        let gempa = data.Infogempa.gempa as Gempa;
+
+        setD(gempa)
+        console.log(gempa)
+    }
+
+    async function getallData(): Promise<void> {
+        let resp = await fetch("https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.json");
+        let data = await resp.json();
+        let all = data.Infogempa.gempa as Gempa[];
+
+        setAll(all)
+        console.log(all)
+    }
+
+    useEffect(() => {
+        getData()
+        getallData()
+    })
+
     let element = all.map(el => {
         return (
             // eslint-disable-next-line react/jsx-key
@@ -84,12 +98,12 @@ export default async function Hero() {
                             </div>
                             <div className="grid grid-rows-[auto_1fr_auto]">
                                 <div>
-                                    <div className="grid grid-cols-2">
+                                    <div className="grid md:grid-cols-2 sm:grid-cols-1">
                                         <div>
                                     <span
                                         className="text-sm text-gray-500 dark:text-gray-400">{d.Tanggal} - {d.Jam}</span>
                                         </div>
-                                        <div className="flex justify-end items-end">
+                                        <div className="flex md:justify-end md:items-end sm:justify-start sm:items-start">
                                     <span
                                         className="text-sm text-gray-500 dark:text-gray-400">Koordinat: {d.Coordinates}</span>
                                         </div>
@@ -126,7 +140,7 @@ export default async function Hero() {
                                         <div className="flex items-center">
                                             <Badge
                                                 color={"blue"}
-                                                className="dark:text-blue-700 rounded-full p-1.5 text-center dark:bg-blue-300 light:bg-blue-100">{d.Kedalaman.split(" ")[0]}</Badge>
+                                                className="dark:text-blue-700 rounded-full p-1.5 text-center dark:bg-blue-300 light:bg-blue-100">{d.Kedalaman ? d.Kedalaman.split(" ")[0] : d.Kedalaman}</Badge>
                                             <p className="text-sm text-gray-500 dark:text-gray-400 ml-2">KM
                                                 Kedalaman</p>
                                         </div>

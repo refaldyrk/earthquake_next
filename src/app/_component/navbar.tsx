@@ -1,8 +1,8 @@
-'use server'
+'use client'
 import {Navbar, DarkThemeToggle, NavbarBrand} from "flowbite-react";
 import Link from "next/link";
 
-export default async function NavigationBar() {
+export default  function NavigationBar() {
     return (
         <>
             <Navbar fluid style={{background: 'black'}}>
