@@ -53,7 +53,7 @@ export default function Hero() {
     useEffect(() => {
         getData()
         getallData()
-    })
+    }, [])
 
     let element = all.map(el => {
         return (
